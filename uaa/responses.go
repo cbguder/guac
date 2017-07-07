@@ -83,3 +83,29 @@ type Meta struct {
 	LastModified string `json:"lastModified"`
 	Created      string `json:"created"`
 }
+
+type ClientsResponse struct {
+	Clients      []Client `json:"resources"`
+	StartIndex   int      `json:"startIndex"`
+	ItemsPerPage int      `json:"itemsPerPage"`
+	TotalResults int      `json:"totalResults"`
+	Schemas      []string `json:"schemas"`
+}
+
+type Client struct {
+	ClientId             string   `json:"client_id"`
+	AuthorizedGrantTypes []string `json:"authorized_grant_types"`
+	Scope                []string `json:"scope"`
+	ResourceIds          []string `json:"resource_ids"`
+	Authorities          []string `json:"authorities"`
+	Autoapprove          []string `json:"autoapprove"`
+	RedirectUri          []string `json:"redirect_uri"`
+	AccessTokenValidity  int      `json:"access_token_validity"`
+	RefreshTokenValidity int      `json:"refresh_token_validity"`
+	AllowedProviders     []string `json:"allowedproviders"`
+	Name                 string   `json:"name"`
+	TokenSalt            string   `json:"token_salt"`
+	CreatedWith          string   `json:"createdwith"`
+	ApprovalsDeleted     bool     `json:"approvals_deleted"`
+	LastModified         int      `json:"lastModified"`
+}

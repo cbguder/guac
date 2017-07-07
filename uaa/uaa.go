@@ -86,6 +86,22 @@ func (u *UAA) GetUsers() ([]User, error) {
 	return usersResponse.Users, nil
 }
 
+func (u *UAA) GetClients() ([]Client, error) {
+	req, err := u.Environment.AuthorizedRequest("GET", "/oauth/clients", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	clientsResponse := ClientsResponse{}
+
+	err = u.performRequestAndDecode(req, &clientsResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return clientsResponse.Clients, nil
+}
+
 func (u *UAA) Curl(method, path string, headers []string, data string) (Response, error) {
 	bodyReader := strings.NewReader(data)
 
