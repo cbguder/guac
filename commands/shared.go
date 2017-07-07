@@ -2,15 +2,13 @@ package commands
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net"
 	"net/http"
 	"os/user"
 	"path/filepath"
-	"time"
-
 	"syscall"
-
-	"fmt"
+	"time"
 
 	"github.com/cbguder/guac/uaa"
 	"golang.org/x/crypto/ssh/terminal"

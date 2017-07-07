@@ -1,8 +1,6 @@
 package commands
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type ClientsCommand struct {
 }
