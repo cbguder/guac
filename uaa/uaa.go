@@ -102,7 +102,7 @@ func (u *UAA) GetClients() ([]Client, error) {
 	return clientsResponse.Clients, nil
 }
 
-func (u *UAA) Curl(method, path string, headers []string, data string) (Response, error) {
+func (u *UAA) Curl(method, path string, headers http.Header, data string) (Response, error) {
 	bodyReader := strings.NewReader(data)
 
 	req, err := u.Environment.AuthorizedRequest(method, path, bodyReader)
@@ -114,9 +114,8 @@ func (u *UAA) Curl(method, path string, headers []string, data string) (Response
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	}
 
-	for _, header := range headers {
-		parts := strings.Split(header, ": ")
-		req.Header.Add(parts[0], parts[1])
+	for key, values := range headers {
+		req.Header[key] = values
 	}
 
 	res, err := u.Client.Do(req)

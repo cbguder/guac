@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 )
@@ -11,7 +12,7 @@ import (
 type CurlCommand struct {
 	Method string   `short:"X" long:"request" value-name:"METHOD" default:"GET"`
 	Header []string `short:"H" long:"header" value-name:"HEADER"`
-	Data   string   `short:"d" long:"data" value-name:"DATA"`
+	Data   []string `short:"d" long:"data" value-name:"DATA"`
 
 	Args struct {
 		Path string `positional-arg-name:"PATH" required:"true"`
@@ -24,7 +25,16 @@ func (c *CurlCommand) Execute(args []string) error {
 		return err
 	}
 
-	res, err := u.Curl(c.Method, c.Args.Path, c.Header, c.Data)
+	header := http.Header{}
+
+	for _, rawHeader := range c.Header {
+		parts := strings.Split(rawHeader, ": ")
+		header.Add(parts[0], parts[1])
+	}
+
+	data := strings.Join(c.Data, "&")
+
+	res, err := u.Curl(c.Method, c.Args.Path, header, data)
 	if err != nil {
 		return err
 	}
