@@ -9,6 +9,7 @@ type GlobalOpts struct {
 	GetClientToken GetClientTokenCommand `command:"get-client-token"`
 	GetOwnerToken  GetOwnerTokenCommand  `command:"get-owner-token"`
 	Users          UsersCommand          `command:"users"`
+	Groups         GroupsCommand         `command:"groups"`
 	Clients        ClientsCommand        `command:"clients"`
 	Curl           CurlCommand           `command:"curl"`
 }

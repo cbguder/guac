@@ -102,6 +102,22 @@ func (u *UAA) GetClients() ([]Client, error) {
 	return clientsResponse.Clients, nil
 }
 
+func (u *UAA) GetGroups() ([]Group, error) {
+	req, err := u.Environment.AuthorizedRequest("GET", "/Groups", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	groupsResponse := GroupsResponse{}
+
+	err = u.performRequestAndDecode(req, &groupsResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return groupsResponse.Groups, nil
+}
+
 func (u *UAA) Curl(method, path string, headers http.Header, data string) (Response, error) {
 	bodyReader := strings.NewReader(data)
 

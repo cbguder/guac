@@ -14,6 +14,13 @@ type Response struct {
 	Body   []byte
 }
 
+type pagedResponse struct {
+	StartIndex   int      `json:"startIndex"`
+	ItemsPerPage int      `json:"itemsPerPage"`
+	TotalResults int      `json:"totalResults"`
+	Schemas      []string `json:"schemas"`
+}
+
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -23,11 +30,8 @@ type TokenResponse struct {
 }
 
 type UsersResponse struct {
-	Users        []User   `json:"resources"`
-	StartIndex   int      `json:"startIndex"`
-	ItemsPerPage int      `json:"itemsPerPage"`
-	TotalResults int      `json:"totalResults"`
-	Schemas      []string `json:"schemas"`
+	Users []User `json:"resources"`
+	pagedResponse
 }
 
 type User struct {
@@ -36,7 +40,7 @@ type User struct {
 	Name                 Name          `json:"name"`
 	PhoneNumbers         []PhoneNumber `json:"phoneNumbers"`
 	Emails               []Email       `json:"emails"`
-	Groups               []Group       `json:"groups"`
+	Groups               []UserGroup   `json:"groups"`
 	Approvals            []Approval    `json:"approvals"`
 	Active               bool          `json:"active"`
 	LastLogonTime        int           `json:"lastLogonTime"`
@@ -63,7 +67,7 @@ type Email struct {
 	Primary bool   `json:"primary"`
 }
 
-type Group struct {
+type UserGroup struct {
 	Value   string `json:"value"`
 	Display string `json:"display"`
 	Type    string `json:"type"`
@@ -85,11 +89,8 @@ type Meta struct {
 }
 
 type ClientsResponse struct {
-	Clients      []Client `json:"resources"`
-	StartIndex   int      `json:"startIndex"`
-	ItemsPerPage int      `json:"itemsPerPage"`
-	TotalResults int      `json:"totalResults"`
-	Schemas      []string `json:"schemas"`
+	Clients []Client `json:"resources"`
+	pagedResponse
 }
 
 type Client struct {
@@ -108,4 +109,25 @@ type Client struct {
 	CreatedWith          string   `json:"createdwith"`
 	ApprovalsDeleted     bool     `json:"approvals_deleted"`
 	LastModified         int      `json:"lastModified"`
+}
+
+type GroupsResponse struct {
+	Groups []Group `json:"resources"`
+	pagedResponse
+}
+
+type Group struct {
+	Id          string   `json:"id"`
+	DisplayName string   `json:"displayName"`
+	Description string   `json:"description"`
+	Members     []Member `json:"members"`
+	ZoneId      string   `json:"zoneId"`
+	Meta        Meta     `json:"meta"`
+	Schemas     []string `json:"schemas"`
+}
+
+type Member struct {
+	Value  string `json:"value"`
+	Type   string `json:"type"`
+	Origin string `json:"origin"`
 }
