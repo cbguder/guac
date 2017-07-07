@@ -1,16 +1,19 @@
 package commands
 
 import (
+	"crypto/tls"
+	"net"
 	"net/http"
 	"os/user"
 	"path/filepath"
 	"time"
 
-	"crypto/tls"
+	"syscall"
 
-	"net"
+	"fmt"
 
 	"github.com/cbguder/guac/uaa"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func buildEnvironmentStore() (uaa.EnvironmentStore, error) {
@@ -68,4 +71,16 @@ func buildUaaWithEnvStore(envStore uaa.EnvironmentStore) (*uaa.UAA, error) {
 		Environment: env,
 		Client:      httpClient,
 	}, nil
+}
+
+func promptForSecret(prompt string) (string, error) {
+	fmt.Printf("%s: ", prompt)
+	bytes, err := terminal.ReadPassword(syscall.Stdin)
+	if err != nil {
+		return "", err
+	}
+
+	fmt.Println()
+
+	return string(bytes), nil
 }

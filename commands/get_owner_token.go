@@ -4,9 +4,9 @@ import "github.com/cbguder/guac/uaa"
 
 type GetOwnerTokenCommand struct {
 	ClientId     string `short:"c" long:"client" required:"true" value-name:"CLIENT"`
-	ClientSecret string `short:"s" long:"secret" required:"true" value-name:"SECRET"`
+	ClientSecret string `short:"s" long:"secret" value-name:"SECRET"`
 	Username     string `short:"u" long:"username" required:"true" value-name:"USERNAME"`
-	Password     string `short:"p" long:"password" required:"true" value-name:"PASSWORD"`
+	Password     string `short:"p" long:"password" value-name:"PASSWORD"`
 }
 
 func (c *GetOwnerTokenCommand) Execute(args []string) error {
@@ -18,6 +18,20 @@ func (c *GetOwnerTokenCommand) Execute(args []string) error {
 	u, err := buildUaaWithEnvStore(envStore)
 	if err != nil {
 		return err
+	}
+
+	if c.ClientSecret == "" {
+		c.ClientSecret, err = promptForSecret("Client Secret")
+		if err != nil {
+			return err
+		}
+	}
+
+	if c.Password == "" {
+		c.Password, err = promptForSecret("Password")
+		if err != nil {
+			return err
+		}
 	}
 
 	token, err := u.GetOwnerToken(c.ClientId, c.ClientSecret, c.Username, c.Password)

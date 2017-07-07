@@ -4,7 +4,7 @@ import "github.com/cbguder/guac/uaa"
 
 type GetClientTokenCommand struct {
 	ClientId     string `short:"c" long:"client" required:"true" value-name:"CLIENT"`
-	ClientSecret string `short:"s" long:"secret" required:"true" value-name:"SECRET"`
+	ClientSecret string `short:"s" long:"secret" value-name:"SECRET"`
 }
 
 func (c *GetClientTokenCommand) Execute(args []string) error {
@@ -16,6 +16,13 @@ func (c *GetClientTokenCommand) Execute(args []string) error {
 	u, err := buildUaaWithEnvStore(envStore)
 	if err != nil {
 		return err
+	}
+
+	if c.ClientSecret == "" {
+		c.ClientSecret, err = promptForSecret("Client Secret")
+		if err != nil {
+			return err
+		}
 	}
 
 	token, err := u.GetClientToken(c.ClientId, c.ClientSecret)
