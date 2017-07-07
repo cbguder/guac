@@ -8,7 +8,7 @@ type GlobalOpts struct {
 	AliasEnv       AliasEnvCommand       `command:"alias-env"`
 	GetClientToken GetClientTokenCommand `command:"get-client-token"`
 	GetOwnerToken  GetOwnerTokenCommand  `command:"get-owner-token"`
-	ListUsers      ListUsersCommand      `command:"list-users"`
+	Users          UsersCommand          `command:"users"`
 	Curl           CurlCommand           `command:"curl"`
 }
 

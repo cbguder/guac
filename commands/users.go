@@ -2,10 +2,10 @@ package commands
 
 import "fmt"
 
-type ListUsersCommand struct {
+type UsersCommand struct {
 }
 
-func (c *ListUsersCommand) Execute(args []string) error {
+func (c *UsersCommand) Execute(args []string) error {
 	u, err := buildUaa()
 	if err != nil {
 		return err
